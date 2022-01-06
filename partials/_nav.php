@@ -1,19 +1,28 @@
-
 <?php
 session_start();
-echo '<nav>
-<ul>
-    <li><a href="index.php">HOME</a></li>';
-
+echo '
+<div class="container" id="navbar">
+    <a href="index.php">HOME</a>';
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true){
-        echo '<li><a href="logout.php">LOGOUT</a></li>';
+    echo '<a href="logout.php">LOGOUT</a>';
     }
     else{
-        echo '<li><a href="signup.php">SIGN-UP</a></li>
-            <li><a href="login.php">LOGIN</a></li>';
+        echo '<a href="signup.php">SIGNUP</a>
+        <a href="login.php">LOGIN</a>';
     }
     echo'
-    </ul>
-    <hr>
-    </nav>';
-    ?>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+  <script>
+function myFunction() {
+  var x = document.getElementById("navbar");
+  if (x.className === "container") {
+    x.className += " responsive";
+  } else {
+    x.className = "container";
+  }
+}
+</script>
+</div>';
+?>
