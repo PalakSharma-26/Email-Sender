@@ -12,13 +12,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if($num==1){
         while($row = mysqli_fetch_assoc($result)){
             if(password_verify($pass, $row['user_password'])){
-                $login=true;
-                session_start();
-                $_SESSION['loggedin'] = true;
-                $_SESSION['sno'] = $row['sno'];
-                $_SESSION['useremail'] = $email;
-                // echo "logged in".$email;
-            header("location: index.php");
+                if($row['status'] =='active'){
+                    $login=true;
+                    session_start();
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['username'] = $row['username'];
+                    $_SESSION['sno'] = $row['sno'];
+                    $_SESSION['useremail'] = $email;
+                    // echo "logged in".$email;
+                header("location: index.php");
+                }
+                else{
+                    $showerror='Please verify your email to activate 
+                    your account.';
+                }
+               
             }
             else{
                 $showerror="Invalid credentials";
@@ -41,6 +49,7 @@ else{
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleForm.css">
 
     <title>Document</title>
 </head>
@@ -48,22 +57,26 @@ else{
 <body>
     <?php include 'partials/_nav.php';
      if($showerror){
-         echo "ERROR" . $showerror;
+         echo "ERROR " . $showerror;
          }
     ?>
-    <h2>Login to your account</h2>
-    <form action="login.php" method="post">
+    <div class="signupForm">
+        <form action="login.php" class="form" method="post">
+            <h1 class="title">Login</h1>
 
-        <div>
-            <label for="email">Email</label><br>
-            <input type="email" name="email" id="email">
-        </div><br>
-        <div><label for="password">PASSWORD</label><br>
-            <input type="password" name="password" id="password">
-        </div><br>
+            <div class="inputContainer">
+                <input type="email" class="input" name="email">
+                <label for="" class="label">Email</label>
+            </div>
 
-        <input type="submit" name="submit" id="submit" value="Login">
-    </form>
+            <div class="inputContainer">
+                <input type="password" name="password" class="input">
+                <label for="" class="label">Password</label>
+            </div>
+
+            <input type="submit" class="submitBtn" value="Sign up">
+        </form>
+    </div>
 </body>
 
 </html>
